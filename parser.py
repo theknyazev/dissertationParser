@@ -1,3 +1,5 @@
+# Значения ряда атрибутов заменены на Placeholders
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,7 +13,7 @@ options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
 
 output_csv = 'database.csv'
-base_url = 'https://vak.minobrnauki.gov.ru'
+base_url = 'BASE_URL'
 
 combined_file_path = "adverts.json"
 with open(combined_file_path, 'r', encoding='utf-8') as file:
@@ -23,10 +25,10 @@ data_list = []
 def parse_advert(url):
     driver.get(url)
     wait = WebDriverWait(driver, 10)
-    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "table.table-striped.table-bordered.table-hover.table-condensed")))
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "ELEMENT")))
 
     soup = BeautifulSoup(driver.page_source, 'html.parser')
-    table = soup.find('table', class_='table table-striped table-bordered table-hover table-condensed')
+    table = soup.find('table', class_='CLASS')
 
     data = {'URL': url, 'Самостоятельное присуждение': 1}
 
@@ -62,5 +64,6 @@ driver.quit()
 
 df = pd.DataFrame(data_list)
 df.to_csv(output_csv, index=False)
+
 
 print('PROCESS FINISHED')
